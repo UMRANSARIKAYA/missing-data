@@ -1,0 +1,54 @@
+---
+title: "20211101067_ümran-sarıkaya"
+author: "ümran sarıkaya"
+format: html
+editor: visual
+---
+
+```{r}
+library(readxl)
+data <- read_excel("C:/Users/mrnsr/Downloads/10-vdym-ilce-baznda-hanelerin-elektronik-aletleri-yardm-almadan-kullanabilme-istatistikleri (1).xlsx")
+View(data)
+```
+
+```{r}
+sum(is.na(data)) # eksik veri var mı diye baktım
+```
+
+```{r}
+silinecek_hucre_sayisi <- 15
+for (i in 1:silinecek_hucre_sayisi) {
+  secilen_satir <- sample(1:nrow(data), 1)
+  secilen_sutun <- sample(colnames(data)[-1], 1) #ilk sütundan(İlce) silme işlemi yapmasını engelledim. 
+  data[secilen_satir, secilen_sutun] <- NA
+  print(paste("Silinen Hücre:", secilen_satir, secilen_sutun))
+}
+```
+
+```{r}
+anyNA(data)
+sum(is.na(data)) # eksik veri oluşmuş mu diye kontrol ettim
+```
+
+```{r}
+summary(data)
+```
+
+```{r}
+View(data)
+library(VIM)
+library(FNN)
+```
+
+```{r}
+dataw <- kNN(data, k = 2)
+```
+
+```{r}
+data <- dataw[, 1:20]
+View(data)
+```
+
+```{r}
+anyNA(data) # eksik verilerimizi doldurmuş olduğumuzu gördük
+```
